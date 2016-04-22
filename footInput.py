@@ -2,22 +2,24 @@
 
 '''
 v0.1  2016 Arp 23
-  - add main loop
+  - can check 5 GPIO input
 '''
 
 import RPi.GPIO as GPIO
 import time
 import os
 
-ins = range(6)
-ins[0] = 40
+ins = [40, 38, 36, 32, 26]
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(ins[0], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+for idx in range(5):
+    GPIO.setup(ins[idx], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-vals = range(6)
+vals = range(5)
 
 while True:
-	vals[0]=GPIO.input(ins[0])
-	print vals[0]
+    for idx in range(5):
+        vals[idx]=GPIO.input(ins[idx])
+        print vals[idx],
+    print
 
-	time.sleep(1.0)
+    time.sleep(1.0)
