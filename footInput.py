@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 '''
+v0.6 2016 Apr 24
+  - tweak timing
 v0.5 2016 Apr 23
   - use 6 inputs
 v0.4 2016 Apr 23
@@ -79,14 +81,15 @@ def main():
             UDP_procCommand(rcvdat, datsock, rcvadr)
             rcvdat = ""
 
-        if cnt < 30: # 300msec
+#        if cnt < 30: # 300msec
+        if cnt < 10: # 100msec
             continue
         cnt=0
 
         for idx in range(6):
             vals[idx]=GPIO.input(ins[idx])
-            print vals[idx],
-        print
+#            print vals[idx],
+#        print
 
 if __name__ == '__main__':
     main()
