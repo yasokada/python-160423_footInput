@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 '''
+v0.3 2016 Apr 23
+  - add GPIO_setup()
 v0.2 2016 Apr 23
   - define main()
   - change interval to 10 msec base for UDP comm
@@ -12,11 +14,15 @@ import RPi.GPIO as GPIO
 import time
 import os
 
-def main():
+ins = [40, 38, 36, 32, 26]
+
+def GPIO_setup():
     GPIO.setmode(GPIO.BOARD)
-    ins = [40, 38, 36, 32, 26]
     for idx in range(5):
-        GPIO.setup(ins[idx], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(ins[idx], GPIO.IN, pull_up_down=GPIO.PUD_UP)    
+
+def main():
+    GPIO_setup()
 
     vals = range(5)
     cnt=0
