@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 '''
+v0.5 2016 Apr 23
+  - use 6 inputs
 v0.4 2016 Apr 23
   - add UDP_procCommand()
 v0.3 2016 Apr 23
@@ -19,12 +21,12 @@ import socket
 import time
 import os
 
-ins = [40, 38, 36, 32, 26]
-vals = range(5)
+ins = [40, 38, 36, 32, 26, 24]
+vals = range(6)
 
 def GPIO_setup():
     GPIO.setmode(GPIO.BOARD)
-    for idx in range(5):
+    for idx in range(6):
         GPIO.setup(ins[idx], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def UDP_setup():
@@ -52,7 +54,7 @@ def UDP_procCommand(rcvdat, datsock, rcvadr):
         return
     
     ret = "foot"
-    for idx in range(5):
+    for idx in range(6):
         if vals[idx]==GPIO.HIGH:
             ret = ret + ",1"
         else:
@@ -81,7 +83,7 @@ def main():
             continue
         cnt=0
 
-        for idx in range(5):
+        for idx in range(6):
             vals[idx]=GPIO.input(ins[idx])
             print vals[idx],
         print
