@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 '''
-v0.1  2016 Arp 23
+v0.2 2016 Apr 23
+  - change interval to 10 msec base for UDP comm
+v0.1 2016 Apr 23
   - can check 5 GPIO input
 '''
 
@@ -15,11 +17,18 @@ for idx in range(5):
     GPIO.setup(ins[idx], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 vals = range(5)
+cnt=0
 
 while True:
+    cnt=cnt+1
+    time.sleep(0.01)
+
+    if cnt < 30: # 300msec
+        continue
+    cnt=0
+
     for idx in range(5):
         vals[idx]=GPIO.input(ins[idx])
         print vals[idx],
     print
 
-    time.sleep(1.0)
