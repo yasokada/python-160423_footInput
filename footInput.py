@@ -9,8 +9,8 @@ import RPi.GPIO as GPIO
 import time
 import os
 
-ins = [40, 38, 36, 32, 26]
 GPIO.setmode(GPIO.BOARD)
+ins = [40, 38, 36, 32, 26]
 for idx in range(5):
     GPIO.setup(ins[idx], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
