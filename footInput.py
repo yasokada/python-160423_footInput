@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 '''
+v0.4 2016 Apr 24
+  - add UDP_procCommand()
 v0.3 2016 Apr 23
   - add UDP_recvData()
   - add UDP_setup()
@@ -34,14 +36,22 @@ def UDP_setup():
     return datsock
 
 def UDP_recvData(datsock, rcvdat):
-	try:
-		data,address = datsock.recvfrom(100)
-	except socket.error:
-			pass
-	else:
-		rcvdat = rcvdat + data
-		return rcvdat, True
-	return rcvdat, False
+    address = ""
+    try:
+	data,address = datsock.recvfrom(100)
+    except socket.error:
+	pass
+    else:
+	rcvdat = rcvdat + data
+	return rcvdat, True, address
+    return rcvdat, False, address
+
+def UDP_procCommand(rcvdat, datsock, rcvadr):
+    if "foot" not in rcvdat:
+        return
+    ret = "foot,1,1,1,1,1\n"
+    datsock.sendto(ret, rcvadr)
+    
 
 def main():
     GPIO_setup()
@@ -53,8 +63,12 @@ def main():
 
     while True:
         cnt=cnt+1
-        rcvdat,rcvd = UDP_recvData(datsock, rcvdat)
+        rcvdat,rcvd,rcvadr = UDP_recvData(datsock, rcvdat)
         time.sleep(0.01)
+
+        if rcvd == True and "\n" in rcvdat:
+            UDP_procCommand(rcvdat, datsock, rcvadr)
+            rcvdat = ""
 
         if cnt < 30: # 300msec
             continue
