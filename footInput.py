@@ -20,6 +20,7 @@ import time
 import os
 
 ins = [40, 38, 36, 32, 26]
+vals = range(5)
 
 def GPIO_setup():
     GPIO.setmode(GPIO.BOARD)
@@ -49,7 +50,14 @@ def UDP_recvData(datsock, rcvdat):
 def UDP_procCommand(rcvdat, datsock, rcvadr):
     if "foot" not in rcvdat:
         return
-    ret = "foot,1,1,1,1,1\n"
+    
+    ret = "foot"
+    for idx in range(5):
+        if vals[idx]==GPIO.HIGH:
+            ret = ret + ",1"
+        else:
+            ret = ret + ",0"
+    ret = ret + "\n"            
     datsock.sendto(ret, rcvadr)
     
 
@@ -57,7 +65,6 @@ def main():
     GPIO_setup()
     datsock = UDP_setup()
     
-    vals = range(5)
     cnt=0
     rcvdat = ""
 
