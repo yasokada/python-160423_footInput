@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-v0.4 2016 Apr 24
+v0.4 2016 Apr 23
   - add UDP_procCommand()
 v0.3 2016 Apr 23
   - add UDP_recvData()
