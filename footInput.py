@@ -2,6 +2,7 @@
 
 '''
 v0.3 2016 Apr 23
+  - add UDP_recvData()
   - add UDP_setup()
   - add GPIO_setup()
 v0.2 2016 Apr 23
@@ -32,15 +33,27 @@ def UDP_setup():
     datsock.setblocking(0)
     return datsock
 
+def UDP_recvData(datsock, rcvdat):
+	try:
+		data,address = datsock.recvfrom(100)
+	except socket.error:
+			pass
+	else:
+		rcvdat = rcvdat + data
+		return rcvdat, True
+	return rcvdat, False
+
 def main():
     GPIO_setup()
     datsock = UDP_setup()
     
     vals = range(5)
     cnt=0
+    rcvdat = ""
 
     while True:
         cnt=cnt+1
+        rcvdat,rcvd = UDP_recvData(datsock, rcvdat)
         time.sleep(0.01)
 
         if cnt < 30: # 300msec
